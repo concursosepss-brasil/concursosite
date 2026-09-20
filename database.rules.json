@@ -1,0 +1,64 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "concursos": {
+      ".read": true,
+      "$concurso": {
+        ".write": "auth != null && auth.token.email_verified === true && (auth.token.email === 'isaacsouza.b7@gmail.com' || auth.token.email === 'isaacsouza.r7@gmail.com')",
+        ".validate": "newData.hasChildren(['nome', 'status'])",
+        "nome": { ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 80" },
+        "cargo": { ".validate": "newData.isString() && newData.val().length <= 120" },
+        "descricao": { ".validate": "newData.isString() && newData.val().length <= 1200" },
+        "status": { ".validate": "newData.val() === 'aberto' || newData.val() === 'breve'" },
+        "grupo": { ".validate": "newData.isString() && newData.val().length <= 300 && (newData.val() === '' || newData.val().beginsWith('https://'))" },
+        "edital": { ".validate": "newData.isString() && newData.val().length <= 300 && (newData.val() === '' || newData.val().beginsWith('https://'))" },
+        "precoAvulsa": { ".validate": "newData.isNumber() && newData.val() > 0 && newData.val() < 1000" },
+        "precoKit": { ".validate": "newData.isNumber() && newData.val() > 0 && newData.val() < 1000" },
+        "ordem": { ".validate": "newData.isNumber()" },
+        "oculto": { ".validate": "newData.isBoolean()" },
+        "$outro": { ".validate": false }
+      }
+    },
+    "apostilas": {
+      ".read": true,
+      "$apostila": {
+        ".write": "auth != null && auth.token.email_verified === true && (auth.token.email === 'isaacsouza.b7@gmail.com' || auth.token.email === 'isaacsouza.r7@gmail.com')",
+        ".validate": "newData.hasChildren(['concurso', 'titulo'])",
+        "concurso": { ".validate": "newData.isString() && newData.val().length <= 60" },
+        "titulo": { ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 80" },
+        "emoji": { ".validate": "newData.isString() && newData.val().length <= 12" },
+        "sumario": { ".validate": "newData.isString() && newData.val().length <= 6000" },
+        "acompanha": { ".validate": "newData.isString() && newData.val().length <= 300" },
+        "principal": { ".validate": "newData.isBoolean()" },
+        "ordem": { ".validate": "newData.isNumber()" },
+        "oculto": { ".validate": "newData.isBoolean()" },
+        "$outro": { ".validate": false }
+      }
+    },
+    "capas": {
+      ".read": true,
+      "$apostila": {
+        ".write": "auth != null && auth.token.email_verified === true && (auth.token.email === 'isaacsouza.b7@gmail.com' || auth.token.email === 'isaacsouza.r7@gmail.com')",
+        ".validate": "newData.isString() && newData.val().length <= 200000 && newData.val().beginsWith('data:image/')"
+      }
+    },
+    "site": {
+      ".read": true,
+      ".write": "auth != null && auth.token.email_verified === true && (auth.token.email === 'isaacsouza.b7@gmail.com' || auth.token.email === 'isaacsouza.r7@gmail.com')",
+      "whatsapp": { ".validate": "newData.isString() && newData.val().matches(/^[0-9]{10,15}$/)" },
+      "pixChave": { ".validate": "newData.isString() && newData.val().length >= 3 && newData.val().length <= 80" },
+      "pixTipo": { ".validate": "newData.isString() && newData.val().length <= 30" },
+      "pixFavorecido": { ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 80" },
+      "precoAvulsa": { ".validate": "newData.isNumber() && newData.val() > 0 && newData.val() < 1000" },
+      "precoKit": { ".validate": "newData.isNumber() && newData.val() > 0 && newData.val() < 1000" },
+      "homeTitulo": { ".validate": "newData.isString() && newData.val().length <= 140" },
+      "homeTexto": { ".validate": "newData.isString() && newData.val().length <= 400" },
+      "rodape": { ".validate": "newData.isString() && newData.val().length <= 400" },
+      "faq": { ".validate": "newData.isString() && newData.val().length <= 8000" },
+      "prazoEntrega": { ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 40" },
+      "quemFaz": { ".validate": "newData.isString() && newData.val().length <= 600" },
+      "$outro": { ".validate": false }
+    }
+  }
+}

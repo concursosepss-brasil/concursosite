@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concursos e PSS Brasil | Apostilas para concursos</title>
+  <meta name="description" content="Apostilas em PDF para concursos, organizadas por disciplina. Escolha seu concurso, veja o sumário, monte o kit e pague via Pix com entrega digital.">
+  <meta name="theme-color" content="#0a1220">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Concursos e PSS Brasil | Apostilas para concursos">
+  <meta property="og:description" content="Apostilas em PDF por concurso e disciplina, com pagamento via Pix e entrega digital.">
+  <meta property="og:url" content="https://concursos-e-pss-brasil.web.app/">
+  <meta property="og:image" content="https://concursos-e-pss-brasil.web.app/assets/og.png">
+  <link rel="canonical" href="https://concursos-e-pss-brasil.web.app/">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/favicon-192.png">
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/style.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <header class="header" id="topo">
+    <div class="container header__inner">
+      <a class="brand" href="/" data-nav aria-label="Concursos e PSS Brasil, página inicial">
+        <img src="/assets/logo.webp" alt="" width="44" height="44" data-admin-trigger>
+        <span>Concursos e PSS Brasil</span>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="/#concursos" data-nav>Concursos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#duvidas">Dúvidas</a>
+      </nav>
+      <a class="btn btn--sm" id="nav-comprar" href="/#concursos" data-nav>Comprar</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= Início ================= -->
+    <div class="view" id="view-home" hidden>
+      <section class="hero">
+        <div class="container hero__inner">
+          <div class="hero__content">
+            <span class="tag" data-reveal>Apostilas em PDF por concurso</span>
+            <h1 id="home-titulo" data-reveal style="--d: 80ms"></h1>
+            <p id="home-texto" data-reveal style="--d: 160ms"></p>
+            <div class="hero__actions" data-reveal style="--d: 240ms">
+              <a class="btn" href="#concursos">VER CONCURSOS</a>
+              <a class="btn btn--ghost" href="#como-funciona">Como funciona</a>
+            </div>
+            <ul class="hero__meta" data-reveal style="--d: 320ms">
+              <li>PDF digital</li>
+              <li>Pagamento via Pix</li>
+              <li>Grupo de WhatsApp por concurso</li>
+            </ul>
+          </div>
+
+          <div class="hero__visual" data-reveal style="--d: 200ms">
+            <div class="hero__stack" aria-hidden="true">
+              <img class="capa" src="/assets/capas/portugues.webp" alt="" width="1024" height="1536" fetchpriority="high">
+              <img class="capa" src="/assets/capas/matematica.webp" alt="" width="1024" height="1536">
+              <img class="capa" src="/assets/capas/pedagogia.webp" alt="" width="1024" height="1536">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="concursos" id="concursos">
+        <div class="container">
+          <h2 class="section-title" data-reveal>Escolha o seu concurso</h2>
+          <p class="section-sub" data-reveal>Cada concurso tem as suas apostilas, o seu kit e um grupo de WhatsApp com materiais gratuitos e novidades.</p>
+          <div class="concursos__grid" id="concursos-grid"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= Página do concurso ================= -->
+    <div class="view" id="view-concurso" hidden>
+      <section class="hero">
+        <div class="container hero__inner">
+          <div class="hero__content">
+            <a class="voltar" href="/#concursos" data-nav data-reveal>← Todos os concursos</a>
+            <span class="tag" id="c-tag" data-reveal style="--d: 60ms"></span>
+            <h1 id="c-titulo" data-reveal style="--d: 120ms"></h1>
+            <p id="c-desc" data-reveal style="--d: 180ms"></p>
+            <div class="hero__actions" id="c-acoes" data-reveal style="--d: 240ms"></div>
+            <ul class="hero__meta" id="c-meta" data-reveal style="--d: 320ms"></ul>
+          </div>
+          <div class="hero__visual" id="c-visual" data-reveal style="--d: 200ms"></div>
+        </div>
+      </section>
+
+      <section class="kit" id="kit">
+        <div class="container">
+          <h2 class="section-title" data-reveal>Monte o kit da sua matéria</h2>
+          <p class="section-sub" data-reveal>Escolha a matéria do seu cargo e veja as apostilas do kit. Toque em uma capa para ver o sumário.</p>
+          <div class="chips" id="materia" role="radiogroup" aria-label="Sua matéria" data-reveal></div>
+
+          <div class="kit__panel" data-reveal>
+            <div class="kit__covers" id="kit-capas"></div>
+            <div class="kit__buy">
+              <span class="badge">Melhor custo-benefício</span>
+              <h3 id="kit-nome"></h3>
+              <div class="kit__price">
+                <s id="kit-de"></s>
+                <span id="kit-preco"></span>
+                <small>pagamento único via Pix</small>
+              </div>
+              <p class="kit__economia" id="kit-economia"></p>
+              <ul class="kit__lista" id="kit-lista"></ul>
+              <button class="btn btn--lg btn--block" type="button" id="kit-comprar" data-comprar="kit">COMPRAR KIT</button>
+              <p class="kit__prazo">Entrega em até <b data-prazo></b> depois que o comprovante chegar.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="catalog" id="avulsas">
+        <div class="container">
+          <h2 class="section-title section-title--sm" data-reveal>Prefere uma apostila avulsa?</h2>
+          <p class="section-sub" id="avulsas-sub" data-reveal></p>
+          <div class="catalog__grid" id="avulsas-grid"></div>
+        </div>
+      </section>
+
+      <section class="soon soon--grupo" id="c-grupo">
+        <div class="container soon__inner" data-reveal>
+          <div>
+            <h2>Materiais gratuitos e novidades</h2>
+            <p id="c-grupo-texto"></p>
+          </div>
+          <a class="btn" id="c-grupo-link" href="#" target="_blank" rel="noopener">ENTRAR NO GRUPO</a>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= Comum às duas páginas ================= -->
+    <section class="steps" id="como-funciona">
+      <div class="container">
+        <h2 class="section-title" data-reveal>Como funciona</h2>
+        <div class="steps__grid">
+          <article class="step" data-reveal>
+            <span class="step__num">1</span>
+            <h3>Pague via <span>Pix</span></h3>
+            <p>Copie a chave e pague pelo app do seu banco, em segundos.</p>
+          </article>
+          <article class="step" data-reveal style="--d: 100ms">
+            <span class="step__num">2</span>
+            <h3>Envie o <span>comprovante</span></h3>
+            <p>Volte ao site, toque em “Fiz o pagamento” e mande o comprovante pelo WhatsApp.</p>
+          </article>
+          <article class="step" data-reveal style="--d: 200ms">
+            <span class="step__num">3</span>
+            <h3>Receba sua <span>apostila</span></h3>
+            <p>O PDF é enviado em até <b data-prazo></b> depois que o comprovante chegar.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="quem-faz">
+      <div class="container" data-reveal>
+        <h2 class="section-title">Quem faz as apostilas</h2>
+        <p id="quem-faz-texto"></p>
+        <ul class="about__lista">
+          <li>Material próprio da equipe do Concursos e PSS Brasil</li>
+          <li>Conteúdo organizado por disciplina e pelo que a banca cobra</li>
+          <li>Atendimento e entrega direto pelo WhatsApp</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="soon">
+      <div class="container soon__inner" data-reveal>
+        <div>
+          <h2>Não achou o seu concurso?</h2>
+          <p>Estamos preparando novas apostilas para concursos de todo o Brasil. Diga qual você quer e avisamos quando sair.</p>
+        </div>
+        <a class="btn btn--ghost" data-whatsapp="Olá! Quero ser avisado sobre as próximas apostilas do Concursos e PSS Brasil." href="#" target="_blank" rel="noopener">Avise-me no WhatsApp</a>
+      </div>
+    </section>
+
+    <section class="faq" id="duvidas">
+      <div class="container">
+        <h2 class="section-title" data-reveal>Perguntas Frequentes (FAQ)</h2>
+        <div class="faq__list" id="faq-lista" data-reveal></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <img src="/assets/logo.webp" alt="Concursos e PSS Brasil" width="72" height="72" loading="lazy" data-admin-trigger>
+      <nav class="footer__nav" aria-label="Rodapé">
+        <a href="/#concursos" data-nav>Concursos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#duvidas">Dúvidas</a>
+        <a data-whatsapp="Olá! Preciso de ajuda com uma apostila do Concursos e PSS Brasil." href="#" target="_blank" rel="noopener">Atendimento no WhatsApp</a>
+      </nav>
+      <p>Copyright © 2026 | Concursos e PSS Brasil | Todos os Direitos Reservados.</p>
+      <p class="footer__note" id="rodape-nota"></p>
+    </div>
+  </footer>
+
+  <div class="buybar" id="buybar" inert>
+    <div class="buybar__info"><strong id="buybar-nome"></strong><span id="buybar-preco"></span></div>
+    <button class="btn btn--sm" type="button" data-comprar="kit">COMPRAR KIT</button>
+  </div>
+
+  <div class="modal" id="checkout" role="dialog" inert aria-modal="true" aria-labelledby="checkout-title" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" tabindex="-1">
+      <button class="modal__close" type="button" aria-label="Fechar" data-close><span aria-hidden="true"></span></button>
+      <div class="modal__progress" aria-hidden="true"><i></i><i></i></div>
+
+      <div class="steps-view" id="steps-view">
+        <section class="pane is-active" data-step="1">
+          <h2 id="checkout-title">Pague via Pix</h2>
+          <p class="pane__lead" data-plano-nome></p>
+          <div class="pix">
+            <span class="pix__label">Valor</span>
+            <strong class="pix__value" id="plano-preco"></strong>
+            <span class="pix__label">Chave Pix (<span data-pix-tipo></span>)</span>
+            <div class="pix__key">
+              <code data-pix-chave></code>
+              <button class="copy" type="button" id="copy-pix">
+                <span class="copy__idle">Copiar</span>
+                <span class="copy__done" aria-hidden="true">Copiado!</span>
+              </button>
+            </div>
+            <span class="pix__label">Favorecido</span>
+            <span class="pix__name" data-pix-favorecido></span>
+          </div>
+          <p class="pane__hint">Abra o app do seu banco, escolha <b>Pix &gt; Pagar com chave</b>, cole a chave e confirme o valor. Quando terminar, volte aqui.</p>
+          <button class="btn btn--block" type="button" data-go="2">CONTINUAR</button>
+        </section>
+
+        <section class="pane" data-step="2">
+          <h2>Pagamento feito?</h2>
+          <p class="pane__lead" data-plano-nome></p>
+          <p class="pane__hint">Toque no botão para avisar no WhatsApp qual apostila você comprou e enviar o comprovante. A entrega é feita em até <b data-prazo></b>.</p>
+          <a class="btn btn--block" id="whatsapp-comprovante" href="#" target="_blank" rel="noopener">FIZ O PAGAMENTO</a>
+          <button class="link" type="button" data-go="1">Voltar e ver a chave Pix</button>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="detalhe" role="dialog" inert aria-modal="true" aria-labelledby="detalhe-titulo" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel modal__panel--wide" tabindex="-1">
+      <button class="modal__close" type="button" aria-label="Fechar" data-close><span aria-hidden="true"></span></button>
+      <div class="detalhe" id="detalhe-corpo"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="admin" role="dialog" inert aria-modal="true" aria-labelledby="admin-titulo" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel modal__panel--admin" tabindex="-1">
+      <button class="modal__close" type="button" aria-label="Fechar" data-close><span aria-hidden="true"></span></button>
+      <div id="admin-corpo"></div>
+    </div>
+  </div>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
