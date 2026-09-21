@@ -528,7 +528,6 @@ ul { list-style: none; }
 .admin__topo h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; }
 .admin__topo .link { margin: 0; }
 .admin__user { font-size: 0.85rem; color: var(--muted); overflow-wrap: anywhere; }
-.admin__entrar { margin-top: 22px; }
 .admin__abas { display: flex; gap: 6px; margin: 16px 0 20px; padding: 4px; border-radius: 14px; background: var(--soft); }
 .admin__abas button { flex: 1; padding: 10px; border-radius: 10px; font-weight: 700; transition: background-color 0.3s var(--ease), box-shadow 0.3s var(--ease); }
 .admin__abas .is-ativa { background: #fff; box-shadow: 0 2px 8px -2px rgba(10, 18, 32, 0.25); }

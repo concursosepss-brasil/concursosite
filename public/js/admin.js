@@ -1,4 +1,4 @@
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import { app, ehAdmin, gravar, apagar } from "./firebase.js";
 import { ajuste, ajustes, concursos, apostilas, apostila, mesclar, removerCapa, temCapaEnviada, gerarId } from "./catalogo.js";
 import { abrirModal, fecharModal } from "./modal.js";
@@ -12,7 +12,7 @@ const corpo = document.querySelector("#admin-corpo");
 const auth = getAuth(app);
 
 let usuario; // undefined = ainda verificando, null = deslogado ou sem permissão
-let negado = ""; // e-mail que entrou com Google mas não está liberado
+let negado = ""; // e-mail que entrou mas não está liberado
 let iniciado = false;
 let pilula = null;
 const ui = { aba: "concursos", concurso: null, filtro: "", materia: null, capa: null, tirarCapa: false };
@@ -35,7 +35,7 @@ const mensagem = (texto, ok = false) => {
 
 const erroDoBanco = (err) =>
   /permission_denied/i.test(`${err.code} ${err.message}`)
-    ? "Sem permissão para salvar. Entre com uma conta Google liberada para editar o site."
+    ? "Sem permissão para salvar. Entre com uma conta liberada para editar o site."
     : `Não foi possível salvar: ${err.message}`;
 
 const idLivre = (base, existe) => {
@@ -67,8 +67,12 @@ const prepararCapa = async (arquivo) => {
 /* ---------- Telas ---------- */
 const telaLogin = () => `
   <h2 id="admin-titulo">Área do administrador</h2>
-  <p class="pane__lead">Entre com uma conta Google liberada para editar o site.</p>
-  <button class="btn btn--block admin__entrar" type="button" data-entrar>ENTRAR COM GOOGLE</button>
+  <p class="pane__lead">Entre com o e-mail e a senha cadastrados para editar o site.</p>
+  <form class="admin__form" id="form-login" novalidate>
+    ${campo("E-mail", "email", "", 'type="email" inputmode="email" autocomplete="username"')}
+    ${campo("Senha", "senha", "", 'type="password" autocomplete="current-password"')}
+    <button class="btn btn--block" type="submit">ENTRAR</button>
+  </form>
   <p class="admin__msg" id="admin-msg" role="status"></p>`;
 
 const abaConcursos = () => {
@@ -346,18 +350,29 @@ const atualizarPilula = () => {
   document.body.append(pilula);
 };
 
-const entrar = async () => {
+const ERROS_LOGIN = {
+  "auth/invalid-credential": "E-mail ou senha incorretos.",
+  "auth/wrong-password": "E-mail ou senha incorretos.",
+  "auth/user-not-found": "E-mail ou senha incorretos.",
+  "auth/invalid-email": "E-mail inválido.",
+  "auth/too-many-requests": "Muitas tentativas. Aguarde um pouco e tente de novo.",
+  "auth/network-request-failed": "Sem conexão. Tente de novo.",
+  "auth/operation-not-allowed": "Ative o login por E-mail/senha no Firebase (Authentication > Método de login).",
+};
+
+const entrar = async (form) => {
+  const { email, senha } = Object.fromEntries(new FormData(form));
+  if (!email.trim() || !senha) return mensagem("Informe o e-mail e a senha.");
   try {
-    await signInWithPopup(auth, new GoogleAuthProvider());
+    await signInWithEmailAndPassword(auth, email.trim(), senha);
   } catch (err) {
-    mensagem(err.code === "auth/popup-closed-by-user" ? "Login cancelado." : `Não foi possível entrar: ${err.message}`);
+    mensagem(ERROS_LOGIN[err.code] ?? `Não foi possível entrar: ${err.message}`);
   }
 };
 
 const aoClicar = (e) => {
   const alvo = e.target.closest("button");
   if (!alvo) return;
-  if ("entrar" in alvo.dataset) return entrar();
   if ("sair" in alvo.dataset) return sair();
   if (alvo.dataset.aba) {
     ui.aba = alvo.dataset.aba;
@@ -396,6 +411,7 @@ const aoAlterar = async (e) => {
 
 const aoEnviar = (e) => {
   e.preventDefault();
+  if (e.target.id === "form-login") entrar(e.target);
   if (e.target.id === "form-concurso") salvarConcurso(e.target);
   if (e.target.id === "form-materia") salvarMateria(e.target);
   if (e.target.id === "form-site") salvarSite(e.target);
