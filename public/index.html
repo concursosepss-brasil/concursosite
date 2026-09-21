@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Concursos e PSS Brasil | Apostilas para concursos</title>
-  <meta name="description" content="Apostilas em PDF para concursos, organizadas por disciplina. Escolha seu concurso, veja o sumário, monte o kit e pague via Pix com entrega digital.">
+  <meta name="description" content="Apostilas em PDF para concursos, organizadas por disciplina. Escolha seu concurso, veja o sumário, escolha o kit e pague via Pix com entrega digital.">
   <meta name="theme-color" content="#0a1220">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Concursos e PSS Brasil | Apostilas para concursos">
@@ -97,8 +97,9 @@
 
       <section class="kit" id="kit">
         <div class="container">
-          <h2 class="section-title" data-reveal>Monte o kit da sua matéria</h2>
-          <p class="section-sub" data-reveal>Escolha a matéria do seu cargo e veja as apostilas do kit. Toque em uma capa para ver o sumário.</p>
+          <div class="kit__intro" data-reveal><span class="tag">Escolha o seu kit</span></div>
+          <h2 class="section-title" data-reveal>Qual é a sua matéria?</h2>
+          <p class="section-sub section-sub--kit" data-reveal>Toque na área do seu cargo e veja na hora <b>quais apostilas vêm no kit dela</b>. Não precisa montar nada: cada matéria já tem o seu kit pronto.</p>
           <div class="chips" id="materia" role="radiogroup" aria-label="Sua matéria" data-reveal></div>
 
           <div class="kit__panel" data-reveal>
@@ -112,6 +113,7 @@
                 <small>pagamento único via Pix</small>
               </div>
               <p class="kit__economia" id="kit-economia"></p>
+              <p class="kit__inclui">Neste kit você recebe:</p>
               <ul class="kit__lista" id="kit-lista"></ul>
               <button class="btn btn--lg btn--block" type="button" id="kit-comprar" data-comprar="kit">COMPRAR KIT</button>
               <p class="kit__prazo">Entrega em até <b data-prazo></b> depois que o comprovante chegar.</p>

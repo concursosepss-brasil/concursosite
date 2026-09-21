@@ -155,7 +155,7 @@ const atualizarKit = async () => {
       </figure>`
     )
     .join("");
-  $("#kit-nome").textContent = `Kit ${itens[0].titulo}`;
+  $("#kit-nome").textContent = `Kit de ${itens[0].titulo}`;
   $("#kit-comprar").textContent = `Comprar kit de ${itens[0].titulo} · ${moeda(total)}`;
   $("#buybar-nome").textContent = `Kit ${itens[0].titulo}`;
   $("#buybar-preco").textContent = moeda(total);
@@ -198,7 +198,7 @@ const renderConcurso = (id, { imediato = false } = {}) => {
   $("#c-titulo").innerHTML = `Apostilas para o concurso <span class="nowrap">${esc(c.nome)}</span>`;
   $("#c-desc").textContent = c.descricao ?? "";
   $("#c-acoes").innerHTML =
-    (comKits.length ? `<a class="btn" href="#kit">MONTAR MEU KIT</a>` : "") +
+    (comKits.length ? `<a class="btn" href="#kit">ESCOLHER MEU KIT</a>` : "") +
     `<a class="btn${comKits.length ? " btn--ghost" : ""}" href="${grupo}" target="_blank" rel="noopener">${c.grupo ? "Entrar no grupo do WhatsApp" : "Solicitar entrada no grupo"}</a>`;
   $("#c-meta").innerHTML =
     "<li>PDF digital</li><li>Pagamento via Pix</li>" +

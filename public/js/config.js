@@ -21,7 +21,7 @@ export const AJUSTES = {
   quemFaz:
     "Somos a equipe do Concursos e PSS Brasil. Preparamos as apostilas com foco no que cada banca realmente cobra, organizamos o conteúdo por disciplina e cuidamos pessoalmente do atendimento e da entrega pelo WhatsApp.",
   homeTitulo: "Apostilas para você passar no seu concurso",
-  homeTexto: "Escolha o concurso, monte o kit da sua matéria e receba os PDFs depois de pagar via Pix.",
+  homeTexto: "Escolha o concurso, escolha o kit da sua matéria e receba os PDFs depois de pagar via Pix.",
   rodape: "Material independente de estudo. O Concursos e PSS Brasil não possui vínculo com órgãos públicos nem com bancas organizadoras.",
   // perguntas separadas por linha em branco: 1ª linha = pergunta, o resto = resposta
   faq: [
@@ -57,7 +57,7 @@ export const SEED = {
       nome: "SEDUC-AM",
       cargo: "Professor",
       descricao:
-        "Apostilas para os cargos de professor da SEDUC-AM, organizadas por disciplina. Escolha a matéria do seu cargo e monte o kit com Conhecimentos Pedagógicos e Legislação. Sempre confira o edital vigente.",
+        "Apostilas para os cargos de professor da SEDUC-AM, organizadas por disciplina. Escolha a matéria do seu cargo e receba o kit com Conhecimentos Pedagógicos e Legislação. Sempre confira o edital vigente.",
       status: "aberto",
       grupo: "",
       edital: "",

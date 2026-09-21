@@ -55,6 +55,8 @@ ul { list-style: none; }
   letter-spacing: -0.035em;
   line-height: 1.12;
 }
+.kit__intro { display: flex; justify-content: center; margin-bottom: 14px; }
+.section-sub--kit { max-width: 620px; margin-inline: auto; font-size: 1.05rem; }
 .section-sub { margin-top: 10px; text-align: center; color: var(--muted); }
 
 /* ---------- Animações de entrada ---------- */
@@ -282,7 +284,8 @@ ul { list-style: none; }
 .kit__price span { font-size: clamp(2.6rem, 5vw, 3.4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
 .kit__price small { font-size: 0.9rem; color: #c6d1e6; }
 .kit__economia { margin-top: 8px; font-weight: 700; color: #5fd398; }
-.kit__lista { display: grid; gap: 10px; margin: 22px 0 26px; font-size: 0.95rem; color: #dbe3f2; }
+.kit__inclui { margin-top: 20px; font-weight: 700; color: #fff; }
+.kit__lista { display: grid; gap: 10px; margin: 12px 0 26px; font-size: 0.95rem; color: #dbe3f2; }
 .kit__lista li { position: relative; padding-left: 26px; }
 .kit__lista li::before { content: ""; position: absolute; left: 4px; top: 0.3em; width: 6px; height: 11px; border: solid var(--sky); border-width: 0 2px 2px 0; transform: rotate(45deg); }
 .kit__lista b { color: #fff; }
