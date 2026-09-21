@@ -22,5 +22,14 @@ export async function lerCatalogo() {
   return { concursos, apostilas, capas, site };
 }
 
+/* Só edita quem tem o e-mail liberado em admins/ (cadastrado no console do Firebase; a chave é o e-mail com "." trocado por ","). */
+export const ehAdmin = async (email) => {
+  try {
+    return (await get(ref(db, `admins/${email.toLowerCase().replaceAll(".", ",")}`))).val() === true;
+  } catch {
+    return false;
+  }
+};
+
 export const gravar = (caminho, valor) => set(ref(db, caminho), valor);
 export const apagar = (caminho) => remove(ref(db, caminho));

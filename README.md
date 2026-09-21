@@ -32,7 +32,9 @@ Enquanto o modo admin está ligado aparece uma pílula flutuante (Editar / Sair)
 
 O que o admin salva fica no banco (`concursos`, `apostilas`, `capas`, `site`) e se sobrepõe ao catálogo inicial do `config.js`.
 
-Configuração única no Firebase Console: Authentication > Método de login > Google > Ativar. Os e-mails autorizados a escrever ficam em `database.rules.json` (procure `auth.token.email`; troque ou acrescente o e-mail do dono do site) e valem depois de `firebase deploy --only database`.
+Configuração única no Firebase Console: Authentication > Método de login > Google > Ativar.
+
+Quem pode editar: só e-mails liberados no Realtime Database, no nó `admins`. O `publicar.bat` pergunta um e-mail e cadastra por você. Para liberar ou tirar alguém depois, abra Firebase Console > Realtime Database > Dados, dentro de `admins` crie (ou apague) uma chave com o e-mail em minúsculas, trocando cada `.` por `,` (exemplo: `nome.sobrenome@gmail.com` vira `nome,sobrenome@gmail,com`), com o valor `true`. Qualquer conta Google consegue entrar na tela de login, mas quem não está em `admins` é desconectada na hora e não consegue gravar (as regras em `database.rules.json` conferem a mesma lista).
 
 ## Antes de publicar
 

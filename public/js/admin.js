@@ -1,17 +1,18 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-import { app, gravar, apagar } from "./firebase.js";
+import { app, ehAdmin, gravar, apagar } from "./firebase.js";
 import { ajuste, ajustes, concursos, apostilas, apostila, mesclar, removerCapa, temCapaEnviada, gerarId } from "./catalogo.js";
 import { abrirModal, fecharModal } from "./modal.js";
 import { esc, capaHtml } from "./util.js";
 
-/* Painel do dono do site. Quem escreve no banco é decidido pelas regras do Firebase
-   (conta Google autorizada), não por este arquivo. */
+/* Painel do dono do site. Só entra quem tem o e-mail liberado em admins/ no Firebase; quem escreve
+   no banco é decidido pelas regras (a mesma lista), não por este arquivo. */
 
 const modal = document.querySelector("#admin");
 const corpo = document.querySelector("#admin-corpo");
 const auth = getAuth(app);
 
-let usuario; // undefined = ainda verificando, null = deslogado
+let usuario; // undefined = ainda verificando, null = deslogado ou sem permissão
+let negado = ""; // e-mail que entrou com Google mas não está liberado
 let iniciado = false;
 let pilula = null;
 const ui = { aba: "concursos", concurso: null, filtro: "", materia: null, capa: null, tirarCapa: false };
@@ -34,7 +35,7 @@ const mensagem = (texto, ok = false) => {
 
 const erroDoBanco = (err) =>
   /permission_denied/i.test(`${err.code} ${err.message}`)
-    ? "Sem permissão para salvar. Entre com a conta Google autorizada do dono do site."
+    ? "Sem permissão para salvar. Entre com uma conta Google liberada para editar o site."
     : `Não foi possível salvar: ${err.message}`;
 
 const idLivre = (base, existe) => {
@@ -66,7 +67,7 @@ const prepararCapa = async (arquivo) => {
 /* ---------- Telas ---------- */
 const telaLogin = () => `
   <h2 id="admin-titulo">Área do administrador</h2>
-  <p class="pane__lead">Entre com a conta Google do dono do site para editar o site.</p>
+  <p class="pane__lead">Entre com uma conta Google liberada para editar o site.</p>
   <button class="btn btn--block admin__entrar" type="button" data-entrar>ENTRAR COM GOOGLE</button>
   <p class="admin__msg" id="admin-msg" role="status"></p>`;
 
@@ -408,7 +409,11 @@ export const iniciarAdmin = () => {
   corpo.addEventListener("click", aoClicar);
   corpo.addEventListener("change", aoAlterar);
   corpo.addEventListener("submit", aoEnviar);
-  onAuthStateChanged(auth, (u) => {
+  onAuthStateChanged(auth, async (u) => {
+    if (u && !(await ehAdmin(u.email))) {
+      negado = u.email;
+      return signOut(auth); // volta aqui com u = null
+    }
     usuario = u;
     try {
       if (u) localStorage.setItem("adminAtivo", "1");
@@ -418,6 +423,10 @@ export const iniciarAdmin = () => {
     }
     atualizarPilula();
     desenhar();
+    if (negado && !u) {
+      mensagem(`O e-mail ${negado} não tem permissão para editar este site.`);
+      negado = "";
+    }
   });
 };
 
