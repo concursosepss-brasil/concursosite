@@ -1,3 +1,5 @@
+import { CONTEUDO } from "./conteudo.js";
+
 /* Dados fixos do site. O que você muda pelo modo admin (concursos, matérias, capas,
    grupos de WhatsApp) fica no banco e se sobrepõe ao catálogo inicial abaixo. */
 
@@ -5,10 +7,12 @@
    o que você salvar lá fica no banco e vale no lugar destes valores. */
 export const AJUSTES = {
   // DDI + DDD + número, só dígitos
-  whatsapp: "",
-  pixChave: "CONFIGURE NO ADMIN",
-  pixTipo: "Telefone",
-  pixFavorecido: "Configure no admin",
+  whatsapp: "5592984478798",
+  // usuários do Instagram separados por vírgula (o primeiro vai no ícone do topo)
+  instagram: "concursos_pss_brasil,concursos_pss",
+  pixChave: "concursosepss@gmail.com",
+  pixTipo: "E-mail",
+  pixFavorecido: "Leiane Mendonça de Souza",
   // preço padrão; cada concurso pode ter o seu
   precoAvulsa: 19.9,
   precoKit: 29.9,
@@ -80,3 +84,5 @@ export const SEED = {
     mapas: { ...materia(160, "Mapas Mentais", "🧠", "mapas", ""), principal: false, oculto: true },
   },
 };
+
+Object.entries(CONTEUDO).forEach(([id, dados]) => Object.assign(SEED.apostilas[id], dados));

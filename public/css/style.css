@@ -122,6 +122,11 @@ ul { list-style: none; }
   box-shadow: 0 1px 0 rgba(10, 18, 32, 0.08);
 }
 .header__inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.header__acoes { display: flex; align-items: center; gap: 12px; }
+.header__insta { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; color: var(--navy); transition: background-color 0.3s, color 0.3s; }
+.header__insta[hidden] { display: none; }
+.header__insta:hover { background: rgba(10, 18, 32, 0.07); color: var(--blue); }
+.header__insta svg { width: 22px; height: 22px; }
 .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -0.03em; font-size: 1.05rem; }
 .brand img { width: 44px; height: 44px; border-radius: 50%; }
 .nav { display: none; gap: 32px; margin-left: auto; font-weight: 500; font-size: 0.95rem; }
@@ -367,6 +372,10 @@ ul { list-style: none; }
 .footer__nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; margin-bottom: 18px; font-weight: 700; color: var(--navy); }
 .footer__nav a { transition: color 0.3s; }
 .footer__nav a:hover { color: var(--blue); }
+.footer__insta { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; margin-bottom: 18px; font-weight: 700; color: var(--navy); }
+.footer__insta[hidden] { display: none; }
+.footer__insta span { font-weight: 500; color: var(--muted); }
+.footer__insta a:hover { color: var(--blue); }
 .footer__note { max-width: 520px; margin: 8px auto 0; font-size: 0.8rem; }
 
 /* ---------- Modal de compra ---------- */

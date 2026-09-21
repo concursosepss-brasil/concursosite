@@ -9,6 +9,7 @@ public/            site (é a pasta publicada)
   index.html       páginas: início (/) e concurso (/c/<id>), detalhe da apostila e modais
   css/style.css
   js/config.js     Pix, WhatsApp, prazo, preços padrão e catálogo inicial (SEDUC-AM)
+  js/conteudo.js   sumários e número de páginas das apostilas prontas (tirados do índice de cada PDF)
   js/catalogo.js   catálogo = config.js + o que o admin salvou no banco
   js/main.js       rotas, vitrine, kit, compra e animações
   js/admin.js      modo admin (só carrega quando abre)
@@ -25,7 +26,7 @@ Toque 5 vezes rápido na logo (topo ou rodapé). Entre com a conta Google autori
 
 - concursos: nome, cargo, descrição, edital, preços, situação e o link do grupo de WhatsApp de cada um;
 - matérias: título, emoji, capa (envio de imagem), sumário, o que acompanha no kit, à venda ou só acompanhante;
-- site: título e texto da página inicial, WhatsApp de atendimento, chave/tipo/favorecido do Pix, preços padrão, perguntas frequentes e nota do rodapé.
+- site: título e texto da página inicial, WhatsApp de atendimento, Instagram (o primeiro perfil vai no ícone do topo e todos no rodapé), chave/tipo/favorecido do Pix, preços padrão, perguntas frequentes e nota do rodapé.
 
 Enquanto o modo admin está ligado aparece uma pílula flutuante (Editar / Sair). Para sair: botão "Sair do modo admin" no painel ou "Sair" na pílula. Concurso sem link de grupo usa o WhatsApp de atendimento (o botão vira "Solicitar entrada").
 
@@ -63,7 +64,7 @@ firebase deploy --only hosting
 git init -b main
 git add .
 git commit -m "Site Concursos e PSS Brasil"
-git remote add origin https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git
+git remote add origin https://github.com/concursosepss-brasil/concursosite.git
 git push -u origin main
 ```
 

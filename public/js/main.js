@@ -25,6 +25,14 @@ const preencherAjustes = () => {
   $$("[data-whatsapp]").forEach((el) => (el.href = linkWhatsapp(el.dataset.whatsapp)));
   $$("[data-prazo]").forEach((el) => (el.textContent = ajuste("prazoEntrega")));
   $("#quem-faz-texto").textContent = ajuste("quemFaz");
+  const perfis = ajuste("instagram").split(",").map((p) => p.trim()).filter(Boolean);
+  const linkInstagram = (perfil) => `https://www.instagram.com/${encodeURIComponent(perfil)}/`;
+  $("#nav-insta").hidden = !perfis.length;
+  $("#nav-insta").href = perfis.length ? linkInstagram(perfis[0]) : "#";
+  $("#rodape-insta").hidden = !perfis.length;
+  $("#rodape-insta").innerHTML =
+    "<span>Siga no Instagram</span>" +
+    perfis.map((p) => `<a href="${esc(linkInstagram(p))}" target="_blank" rel="noopener">@${esc(p)}</a>`).join("");
   $("#home-titulo").textContent = ajuste("homeTitulo");
   $("#home-texto").textContent = ajuste("homeTexto");
   $("#rodape-nota").textContent = ajuste("rodape");
@@ -70,13 +78,22 @@ document.addEventListener("click", (e) => {
   botao.setAttribute("aria-expanded", aberto);
 });
 
+/* Vitrine do concurso: a matéria principal no meio, cercada pelas que acompanham o kit. */
+const capasDoKit = (comKits) => {
+  const [principal, ...extras] = comKits.length ? kitDe(comKits[0].id) : [];
+  return principal ? [extras[0], principal, ...extras.slice(1)].filter(Boolean) : [];
+};
+
 /* ---------- Início: lista de concursos ---------- */
 const renderHome = ({ imediato = false } = {}) => {
   $("#concursos-grid").innerHTML = concursos()
     .map((c, i) => {
       const lista = principais(c.id);
       const comKits = lista.filter(comKit);
-      const capas = lista.length ? lista.slice(0, 3).map((a) => capaHtml(a)).join("") : capaHtml({ id: "", titulo: c.nome, emoji: "📚" });
+      const destaque = capasDoKit(comKits);
+      const capas =
+        (destaque.length ? destaque : lista.slice(0, 3)).map((a) => capaHtml(a)).join("") ||
+        capaHtml({ id: "", titulo: c.nome, emoji: "📚" });
       const meta = comKits.length
         ? `Escolha entre ${comKits.length} matérias · kit de ${kitDe(comKits[0].id).length} apostilas por ${moeda(preco(c.id, "kit"))}`
         : lista.length
@@ -177,10 +194,9 @@ const renderConcurso = (id, { imediato = false } = {}) => {
     "<li>PDF digital</li><li>Pagamento via Pix</li>" +
     (c.edital ? `<li><a class="meta-link" href="${esc(c.edital)}" target="_blank" rel="noopener">Ver edital</a></li>` : "");
 
-  const trio = comKits.length ? kitDe(comKits[0].id) : [];
-  const [principal, ...extras] = trio;
-  $("#c-visual").innerHTML = principal
-    ? `<div class="hero__stack">${[extras[0], principal, ...extras.slice(1)].filter(Boolean).map((a) => capaHtml(a, { eager: true })).join("")}</div>`
+  const vitrine = capasDoKit(comKits);
+  $("#c-visual").innerHTML = vitrine.length
+    ? `<div class="hero__stack">${vitrine.map((a) => capaHtml(a, { eager: true })).join("")}</div>`
     : lista.length
       ? `<div class="hero__cover">${capaHtml(lista[0], { eager: true })}</div>`
       : "";

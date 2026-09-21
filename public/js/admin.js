@@ -147,7 +147,7 @@ const abaMaterias = () => {
           </div>
         </div>
       </div>
-      ${area("Sumário (um item por linha; use “# ” no começo para um título de seção)", "sumario", atual.sumario, 'maxlength="6000" rows="7"')}
+      ${area("Sumário (um item por linha; use “# ” no começo para um título de seção)", "sumario", atual.sumario, 'maxlength="12000" rows="7"')}
       <fieldset class="field admin__kit"><span>Acompanha no kit</span>
         ${outras.length ? outras.map((x) => marca(`${esc(x.emoji)} ${esc(x.titulo)}`, "acompanha", escolhidas.includes(x.id), x.id)).join("") : `<p class="pane__hint">Cadastre outras matérias deste concurso para montar o kit.</p>`}
       </fieldset>
@@ -170,6 +170,7 @@ const abaSite = () => {
 
       <h3 class="admin__sep">Contato e Pix</h3>
       ${campo("WhatsApp de atendimento (com DDD)", "whatsapp", formatado, 'type="tel" inputmode="tel" maxlength="20" placeholder="92 99999-9999"')}
+      ${campo("Instagram (usuários separados por vírgula; o primeiro vai no ícone do topo)", "instagram", a.instagram, 'maxlength="200" placeholder="meu_perfil, outro_perfil"')}
       ${campo("Chave Pix", "pixChave", a.pixChave, 'maxlength="80"')}
       <label class="field"><span>Tipo da chave</span>
         <select name="pixTipo">${TIPOS_PIX.map((t) => `<option${t === a.pixTipo ? " selected" : ""}>${t}</option>`).join("")}</select>
@@ -288,6 +289,8 @@ const salvarSite = async (form) => {
   let telefone = dados.whatsapp.replace(/\D/g, "");
   if (telefone.length <= 11) telefone = `55${telefone}`;
   if (telefone.length < 12 || telefone.length > 13) return mensagem("Informe o WhatsApp com DDD, por exemplo 92 98474-5492.");
+  const perfis = dados.instagram.split(",").map((p) => p.trim().replace(/^@/, "")).filter(Boolean);
+  if (perfis.some((p) => !/^[\w.]{1,30}$/.test(p))) return mensagem("Instagram: use só o nome de usuário, sem link, por exemplo meu_perfil.");
   if (dados.pixChave.trim().length < 3) return mensagem("Informe a chave Pix.");
   if (dados.pixFavorecido.trim().length < 2) return mensagem("Informe o favorecido do Pix.");
   const precoAvulsa = Number(dados.precoAvulsa);
@@ -297,6 +300,7 @@ const salvarSite = async (form) => {
 
   const registro = {
     whatsapp: telefone,
+    instagram: perfis.join(","),
     pixChave: dados.pixChave.trim(),
     pixTipo: dados.pixTipo,
     pixFavorecido: dados.pixFavorecido.trim(),

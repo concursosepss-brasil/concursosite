@@ -16,12 +16,16 @@ const sobrepor = (destino, novos = {}) => {
   for (const [id, dados] of Object.entries(novos ?? {})) destino[id] = { ...destino[id], ...dados };
 };
 
+/* Sumário vazio no banco não apaga o do catálogo inicial. */
+const semSumarioVazio = (apostilas) =>
+  Object.fromEntries(Object.entries(apostilas ?? {}).map(([id, { sumario, ...resto }]) => [id, sumario ? { ...resto, sumario } : resto]));
+
 export const aoMudar = (fn) => ouvintes.push(fn);
 
 export const mesclar = ({ concursos, apostilas, capas, site } = {}) => {
   const antes = JSON.stringify(estado);
   sobrepor(estado.concursos, concursos);
-  sobrepor(estado.apostilas, apostilas);
+  sobrepor(estado.apostilas, semSumarioVazio(apostilas));
   Object.assign(estado.capas, capas);
   Object.assign(estado.site, site);
   if (JSON.stringify(estado) !== antes) avisar();
