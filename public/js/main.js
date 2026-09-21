@@ -18,6 +18,12 @@ const blocosFaq = (texto) =>
     .filter(([pergunta]) => pergunta)
     .map(([pergunta, ...resposta]) => ({ pergunta: pergunta.trim(), resposta: resposta.join(" ").trim() }));
 
+/* 5592984478798 -> (92) 98447-8798 */
+const telefoneBonito = (numero) => {
+  const local = numero.replace(/^55/, "");
+  return local.length < 10 ? local : `(${local.slice(0, 2)}) ${local.slice(2, -4)}-${local.slice(-4)}`;
+};
+
 const preencherAjustes = () => {
   $$("[data-pix-chave]").forEach((el) => (el.textContent = ajuste("pixChave")));
   $$("[data-pix-tipo]").forEach((el) => (el.textContent = ajuste("pixTipo")));
@@ -27,8 +33,12 @@ const preencherAjustes = () => {
   $("#quem-faz-texto").textContent = ajuste("quemFaz");
   const perfis = ajuste("instagram").split(",").map((p) => p.trim()).filter(Boolean);
   const linkInstagram = (perfil) => `https://www.instagram.com/${encodeURIComponent(perfil)}/`;
-  $("#nav-insta").hidden = !perfis.length;
-  $("#nav-insta").href = perfis.length ? linkInstagram(perfis[0]) : "#";
+  $("#topo-insta").hidden = !perfis.length;
+  if (perfis.length) {
+    $("#topo-insta").href = linkInstagram(perfis[0]);
+    $("#topo-insta-nome").textContent = `@${perfis[0]}`;
+  }
+  $("#topo-whats-num").textContent = telefoneBonito(ajuste("whatsapp"));
   $("#rodape-insta").hidden = !perfis.length;
   $("#rodape-insta").innerHTML =
     "<span>Siga no Instagram</span>" +

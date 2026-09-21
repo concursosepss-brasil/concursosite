@@ -1,18 +1,17 @@
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-import { app, ehAdmin, gravar, apagar } from "./firebase.js";
+import { app, gravar, apagar } from "./firebase.js";
 import { ajuste, ajustes, concursos, apostilas, apostila, mesclar, removerCapa, temCapaEnviada, gerarId } from "./catalogo.js";
 import { abrirModal, fecharModal } from "./modal.js";
 import { esc, capaHtml } from "./util.js";
 
-/* Painel do dono do site. Só entra quem tem o e-mail liberado em admins/ no Firebase; quem escreve
-   no banco é decidido pelas regras (a mesma lista), não por este arquivo. */
+/* Painel do dono do site. Só entra quem tem login criado no Firebase (Authentication > Usuários);
+   quem escreve no banco é decidido pelas regras do Firebase, não por este arquivo. */
 
 const modal = document.querySelector("#admin");
 const corpo = document.querySelector("#admin-corpo");
 const auth = getAuth(app);
 
-let usuario; // undefined = ainda verificando, null = deslogado ou sem permissão
-let negado = ""; // e-mail que entrou mas não está liberado
+let usuario; // undefined = ainda verificando, null = deslogado
 let iniciado = false;
 let pilula = null;
 const ui = { aba: "concursos", concurso: null, filtro: "", materia: null, capa: null, tirarCapa: false };
@@ -425,11 +424,7 @@ export const iniciarAdmin = () => {
   corpo.addEventListener("click", aoClicar);
   corpo.addEventListener("change", aoAlterar);
   corpo.addEventListener("submit", aoEnviar);
-  onAuthStateChanged(auth, async (u) => {
-    if (u && !(await ehAdmin(u.email))) {
-      negado = u.email;
-      return signOut(auth); // volta aqui com u = null
-    }
+  onAuthStateChanged(auth, (u) => {
     usuario = u;
     try {
       if (u) localStorage.setItem("adminAtivo", "1");
@@ -439,10 +434,6 @@ export const iniciarAdmin = () => {
     }
     atualizarPilula();
     desenhar();
-    if (negado && !u) {
-      mensagem(`O e-mail ${negado} não tem permissão para editar este site.`);
-      negado = "";
-    }
   });
 };
 

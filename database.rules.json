@@ -2,15 +2,10 @@
   "rules": {
     ".read": false,
     ".write": false,
-    "admins": {
-      "$chave": {
-        ".read": "auth != null && $chave === auth.token.email.toLowerCase().replace('.', ',')"
-      }
-    },
     "concursos": {
       ".read": true,
       "$concurso": {
-        ".write": "auth != null && root.child('admins').child(auth.token.email.toLowerCase().replace('.', ',')).val() === true",
+        ".write": "auth != null && auth.token.firebase.sign_in_provider === 'password'",
         ".validate": "newData.hasChildren(['nome', 'status'])",
         "nome": { ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 80" },
         "cargo": { ".validate": "newData.isString() && newData.val().length <= 120" },
@@ -28,7 +23,7 @@
     "apostilas": {
       ".read": true,
       "$apostila": {
-        ".write": "auth != null && root.child('admins').child(auth.token.email.toLowerCase().replace('.', ',')).val() === true",
+        ".write": "auth != null && auth.token.firebase.sign_in_provider === 'password'",
         ".validate": "newData.hasChildren(['concurso', 'titulo'])",
         "concurso": { ".validate": "newData.isString() && newData.val().length <= 60" },
         "titulo": { ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 80" },
@@ -44,13 +39,13 @@
     "capas": {
       ".read": true,
       "$apostila": {
-        ".write": "auth != null && root.child('admins').child(auth.token.email.toLowerCase().replace('.', ',')).val() === true",
+        ".write": "auth != null && auth.token.firebase.sign_in_provider === 'password'",
         ".validate": "newData.isString() && newData.val().length <= 200000 && newData.val().beginsWith('data:image/')"
       }
     },
     "site": {
       ".read": true,
-      ".write": "auth != null && root.child('admins').child(auth.token.email.toLowerCase().replace('.', ',')).val() === true",
+      ".write": "auth != null && auth.token.firebase.sign_in_provider === 'password'",
       "whatsapp": { ".validate": "newData.isString() && newData.val().matches(/^[0-9]{10,15}$/)" },
       "instagram": { ".validate": "newData.isString() && newData.val().length <= 200 && (newData.val() === '' || newData.val().matches(/^[A-Za-z0-9._]{1,30}(,[A-Za-z0-9._]{1,30})*$/))" },
       "pixChave": { ".validate": "newData.isString() && newData.val().length >= 3 && newData.val().length <= 80" },

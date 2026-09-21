@@ -21,7 +21,8 @@
   --radius-lg: 32px;
   --radius-md: 24px;
   --container: 1080px;
-  --header-h: 76px;
+  --topbar-h: 34px;
+  --header-h: calc(76px + var(--topbar-h));
   --space: 56px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -113,6 +114,8 @@ ul { list-style: none; }
   inset: 0 0 auto 0;
   z-index: 50;
   height: var(--header-h);
+  display: flex;
+  flex-direction: column;
   transition: background-color 0.4s var(--ease), box-shadow 0.4s var(--ease), backdrop-filter 0.4s;
 }
 .header.is-scrolled {
@@ -121,12 +124,13 @@ ul { list-style: none; }
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 1px 0 rgba(10, 18, 32, 0.08);
 }
-.header__inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-.header__acoes { display: flex; align-items: center; gap: 12px; }
-.header__insta { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; color: var(--navy); transition: background-color 0.3s, color 0.3s; }
-.header__insta[hidden] { display: none; }
-.header__insta:hover { background: rgba(10, 18, 32, 0.07); color: var(--blue); }
-.header__insta svg { width: 22px; height: 22px; }
+.header__inner { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.topbar { height: var(--topbar-h); font-size: 0.8rem; font-weight: 600; color: var(--navy); }
+.topbar__inner { height: 100%; display: flex; align-items: center; justify-content: center; gap: 20px; }
+.topbar__link { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; transition: color 0.3s; }
+.topbar__link[hidden] { display: none; }
+.topbar__link:hover { color: var(--blue); }
+.topbar__link svg { width: 16px; height: 16px; }
 .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -0.03em; font-size: 1.05rem; }
 .brand img { width: 44px; height: 44px; border-radius: 50%; }
 .nav { display: none; gap: 32px; margin-left: auto; font-weight: 500; font-size: 0.95rem; }
@@ -588,6 +592,7 @@ ul { list-style: none; }
   .nav { display: flex; }
   .buybar { display: none; }
   .header__inner { justify-content: flex-start; }
+  .topbar__inner { justify-content: flex-end; }
   .hero__inner { grid-template-columns: 1.15fr 0.85fr; }
   .hero__cover { width: 340px; }
   .hero__stack .capa { width: 140px; }

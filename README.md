@@ -32,9 +32,12 @@ Enquanto o modo admin está ligado aparece uma pílula flutuante (Editar / Sair)
 
 O que o admin salva fica no banco (`concursos`, `apostilas`, `capas`, `site`) e se sobrepõe ao catálogo inicial do `config.js`.
 
-Configuração única no Firebase Console: Authentication > Método de login > E-mail/senha > Ativar. Depois, em Authentication > Configurações > Ações do usuário, desmarque "Ativar criação (cadastro)" para ninguém conseguir criar conta pelo site.
+Configuração única no Firebase Console (a segunda parte é obrigatória):
 
-Quem pode editar: só quem está nas duas listas. (1) Authentication > Usuários > Adicionar usuário: cria o e-mail e a senha do login. (2) Realtime Database > Dados, dentro de `admins`: uma chave com o e-mail em minúsculas, trocando cada `.` por `,` (exemplo: `nome.sobrenome@gmail.com` vira `nome,sobrenome@gmail,com`), com o valor `true`. O `publicar.bat` faz o passo (2) por você: pergunta o e-mail e cadastra. Para tirar alguém, apague o usuário (1) e a chave (2). Não existe tela de cadastro no site, e as regras em `database.rules.json` conferem a mesma lista `admins`.
+1. Authentication > Método de login > E-mail/senha > Ativar.
+2. Authentication > Configurações > Ações do usuário > desmarque "Ativar criação (cadastro)". Sem isso qualquer pessoa consegue criar uma conta e editar o site.
+
+Quem pode editar: só quem tem usuário em Authentication > Usuários (botão Adicionar usuário: e-mail e senha). Para tirar alguém, apague o usuário. As regras em `database.rules.json` só aceitam gravação de quem entrou com e-mail e senha; contas Google não gravam.
 
 ## Antes de publicar
 
