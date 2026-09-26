@@ -126,10 +126,7 @@ const renderHome = ({ imediato = false } = {}) => {
 };
 
 /* ---------- Página do concurso ---------- */
-const chips = $("#materia");
-const kitCapas = $("#kit-capas");
-let materiaKit = "";
-let timerKit;
+const kitGrid = $("#kit-grid");
 
 const cardAvulsa = (a, i) => `
   <article class="card" data-reveal style="--d: ${(i % 4) * 70}ms">
@@ -139,51 +136,49 @@ const cardAvulsa = (a, i) => `
     <button class="btn btn--sm btn--ghost btn--block" type="button" data-comprar="avulsa" data-id="${esc(a.id)}">Comprar avulsa</button>
   </article>`;
 
-const atualizarKit = async () => {
-  if (!materiaKit) return;
-  const itens = kitDe(materiaKit);
+const kitCardHtml = (materia, i) => {
+  const itens = kitDe(materia.id);
   const cid = itens[0].concurso;
   const total = preco(cid, "kit");
   const separado = itens.length * preco(cid, "avulsa");
-  kitCapas.style.setProperty("--n", itens.length);
-  kitCapas.innerHTML = itens
+  const covers = itens
     .map(
-      (a, i) => `
+      (a, j) => `
       <figure class="kit__cover">
-        <button class="kit__capa" type="button" data-detalhe="${esc(a.id)}" aria-label="Ver sumário: ${esc(a.titulo)}">${capaHtml(a, { eager: true })}</button>
-        <figcaption><small>${i === 0 ? "Apostila principal" : "Acompanha o kit"}</small><strong>${esc(a.titulo)}</strong></figcaption>
+        <button class="kit__capa" type="button" data-detalhe="${esc(a.id)}" aria-label="Ver sumário: ${esc(a.titulo)}">${capaHtml(a, { eager: j === 0 })}</button>
+        <figcaption><small>${j === 0 ? "Apostila principal" : "Acompanha o kit"}</small><strong>${esc(a.titulo)}</strong></figcaption>
       </figure>`
     )
     .join("");
-  $("#kit-nome").textContent = `Kit de ${itens[0].titulo}`;
-  $("#kit-comprar").textContent = `Comprar kit de ${itens[0].titulo} · ${moeda(total)}`;
-  $("#buybar-nome").textContent = `Kit ${itens[0].titulo}`;
-  $("#buybar-preco").textContent = moeda(total);
-  $("#kit-preco").textContent = moeda(total);
-  $("#kit-de").textContent = separado > total ? moeda(separado) : "";
-  $("#kit-economia").textContent = separado > total ? `Economize ${moeda(separado - total)} em relação às apostilas avulsas` : "";
-  $("#kit-lista").innerHTML =
-    itens.map((a, i) => `<li><b>${esc(a.titulo)}</b> <span>${i === 0 ? "apostila principal" : "acompanha o kit"}</span></li>`).join("") +
+  const lista =
+    itens.map((a, j) => `<li><b>${esc(a.titulo)}</b> <span>${j === 0 ? "apostila principal" : "acompanha o kit"}</span></li>`).join("") +
     `<li><b>Mapas mentais</b> <span>bônus para revisar rápido</span></li>` +
     `<li><b>Tudo em PDF</b> <span>celular, tablet ou computador</span></li>`;
-  await Promise.all($$("img", kitCapas).map((img) => img.decode().catch(() => {})));
+  return `
+    <article class="kit__panel" data-reveal style="--d: ${Math.min(i, 6) * 60}ms">
+      <div class="kit__covers" style="--n: ${itens.length}">${covers}</div>
+      <div class="kit__buy">
+        <span class="badge">Melhor custo-benefício</span>
+        <h3>Kit de ${esc(itens[0].titulo)}</h3>
+        <div class="kit__price">
+          <s>${separado > total ? moeda(separado) : ""}</s>
+          <span>${moeda(total)}</span>
+          <small>pagamento único via Pix</small>
+        </div>
+        <p class="kit__economia">${separado > total ? `Economize ${moeda(separado - total)} em relação às apostilas avulsas` : ""}</p>
+        <p class="kit__inclui">Neste kit você recebe:</p>
+        <ul class="kit__lista">${lista}</ul>
+        <button class="btn btn--lg btn--block" type="button" data-comprar="kit" data-id="${esc(itens[0].id)}">COMPRAR KIT · ${moeda(total)}</button>
+        <p class="kit__prazo">Entrega em até <b data-prazo></b> depois que o comprovante chegar.</p>
+      </div>
+    </article>`;
 };
 
-const escolherMateria = (id) => {
-  materiaKit = id;
-  $$("[data-materia]", chips).forEach((el) => el.setAttribute("aria-checked", el.dataset.materia === id));
-  kitCapas.classList.add("is-swapping");
-  clearTimeout(timerKit);
-  timerKit = setTimeout(async () => {
-    await atualizarKit();
-    kitCapas.classList.remove("is-swapping");
-  }, 280);
+const renderKits = async (comKits) => {
+  kitGrid.innerHTML = comKits.map(kitCardHtml).join("");
+  $$("[data-prazo]", kitGrid).forEach((el) => (el.textContent = ajuste("prazoEntrega")));
+  await Promise.all($$("img", kitGrid).map((img) => img.decode().catch(() => {})));
 };
-
-chips.addEventListener("click", (e) => {
-  const chip = e.target.closest("[data-materia]");
-  if (chip && chip.dataset.materia !== materiaKit) escolherMateria(chip.dataset.materia);
-});
 
 /* Sem link de grupo cadastrado, o botão abre o WhatsApp de atendimento pedindo o convite. */
 const linkGrupo = (c) => c.grupo || linkWhatsapp(`Olá! Quero entrar no grupo do concurso ${c.nome}.`);
@@ -212,12 +207,7 @@ const renderConcurso = (id, { imediato = false } = {}) => {
       : "";
 
   $("#kit").hidden = !comKits.length;
-  chips.innerHTML = comKits
-    .map((a) => `<button class="chip" type="button" role="radio" aria-checked="false" data-materia="${esc(a.id)}"><span aria-hidden="true">${esc(a.emoji)}</span> ${esc(a.titulo)}</button>`)
-    .join("");
-  materiaKit = comKits.some((a) => a.id === materiaKit) ? materiaKit : (comKits[0]?.id ?? "");
-  $$("[data-materia]", chips).forEach((el) => el.setAttribute("aria-checked", el.dataset.materia === materiaKit));
-  atualizarKit();
+  renderKits(comKits);
 
   $("#avulsas").hidden = !lista.length;
   $("#avulsas-sub").textContent = comKits.length
@@ -233,22 +223,6 @@ const renderConcurso = (id, { imediato = false } = {}) => {
 
   observar($("#view-concurso"), imediato);
 };
-
-/* Barra fixa de compra no celular: aparece quando o kit está na tela mas o botão dele não. */
-const buybar = $("#buybar");
-const noPainel = { kit: false, botao: false };
-const mostrarBuybar = () => {
-  const visivel = noPainel.kit && !noPainel.botao;
-  buybar.classList.toggle("is-visible", visivel);
-  buybar.inert = !visivel;
-};
-const vigiar = (alvo, chave) =>
-  new IntersectionObserver(([entrada]) => {
-    noPainel[chave] = entrada.isIntersecting;
-    mostrarBuybar();
-  }).observe(alvo);
-vigiar($("#kit"), "kit");
-vigiar($("#kit-comprar"), "botao");
 
 /* ---------- Detalhe da apostila (sumário) ---------- */
 const abrirDetalhe = (id) => {
@@ -491,7 +465,7 @@ const abrirCheckout = (novoPlano) => {
 document.addEventListener("click", (e) => {
   const comprar = e.target.closest("[data-comprar]");
   if (comprar) {
-    const id = comprar.dataset.id ?? materiaKit;
+    const id = comprar.dataset.id;
     return abrirCheckout(comprar.dataset.comprar === "kit" ? planoKit(id) : planoAvulso(id));
   }
   const detalhe = e.target.closest("[data-detalhe]");

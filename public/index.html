@@ -99,26 +99,9 @@
         <div class="container">
           <div class="kit__intro" data-reveal><span class="tag">Escolha o seu kit</span></div>
           <h2 class="section-title" data-reveal>Qual é a sua matéria?</h2>
-          <p class="section-sub section-sub--kit" data-reveal>Toque na área do seu cargo e veja na hora <b>quais apostilas vêm no kit dela</b>. Não precisa montar nada: cada matéria já tem o seu kit pronto.</p>
-          <div class="chips" id="materia" role="radiogroup" aria-label="Sua matéria" data-reveal></div>
+          <p class="section-sub section-sub--kit" data-reveal>Veja abaixo <b>todas as matérias e o que vem no kit de cada uma</b>. É só escolher a sua e pagar via Pix — não precisa montar nada.</p>
 
-          <div class="kit__panel" data-reveal>
-            <div class="kit__covers" id="kit-capas"></div>
-            <div class="kit__buy">
-              <span class="badge">Melhor custo-benefício</span>
-              <h3 id="kit-nome"></h3>
-              <div class="kit__price">
-                <s id="kit-de"></s>
-                <span id="kit-preco"></span>
-                <small>pagamento único via Pix</small>
-              </div>
-              <p class="kit__economia" id="kit-economia"></p>
-              <p class="kit__inclui">Neste kit você recebe:</p>
-              <ul class="kit__lista" id="kit-lista"></ul>
-              <button class="btn btn--lg btn--block" type="button" id="kit-comprar" data-comprar="kit">COMPRAR KIT</button>
-              <p class="kit__prazo">Entrega em até <b data-prazo></b> depois que o comprovante chegar.</p>
-            </div>
-          </div>
+          <div class="kit-grid" id="kit-grid" data-reveal></div>
         </div>
       </section>
 
@@ -209,11 +192,6 @@
       <p class="footer__note" id="rodape-nota"></p>
     </div>
   </footer>
-
-  <div class="buybar" id="buybar" inert>
-    <div class="buybar__info"><strong id="buybar-nome"></strong><span id="buybar-preco"></span></div>
-    <button class="btn btn--sm" type="button" data-comprar="kit">COMPRAR KIT</button>
-  </div>
 
   <div class="modal" id="checkout" role="dialog" inert aria-modal="true" aria-labelledby="checkout-title" aria-hidden="true">
     <div class="modal__backdrop" data-close></div>
